@@ -1,5 +1,5 @@
 <script setup>
-import{ ref } from 'vue';
+import{ ref, onMounted } from 'vue';
 import BlogPost from './components/BlogPost.vue';
 import ButtonCounter from './components/ButtonCounter.vue';
 import PaginatePost from './components/PaginatePost.vue';
@@ -27,14 +27,30 @@ const previous =()=>{
   fin.value=fin.value-postXpagina
 }
 
-fetch ('https://jsonplaceholder.typicode.com/posts')
-.then((res)=>res.json())
-.then((data)=>{posts.value=data})
-.finally(()=>{
-  setTimeout(()=>{
+onMounted(async()=>{
+  loading.value=true
+  try{
+    const rest = await fetch ('https://jsonplaceholder.typicode.com/posts')
+    posts.value=await rest.json()
+
+
+  }catch(error){
+    console.log(error)
+  }finally{
+    setTimeout(()=>{
     loading.value=false
-  },2000)
+      },2000);
+  }
 })
+
+//fetch ('https://jsonplaceholder.typicode.com/posts')
+//.then((res)=>res.json())
+//.then((data)=>{posts.value=data})
+//.finally(()=>{
+//  setTimeout(()=>{
+//    loading.value=false
+//  },2000)
+//})
 
 
 </script>
@@ -44,7 +60,7 @@ fetch ('https://jsonplaceholder.typicode.com/posts')
   <LoadingSpinner v-if="loading">
 
   </LoadingSpinner>
-  <div class="container" v-elese>
+  <div class="container" v-else>
     <h1>App</h1>
     <h2>Mis post Favorito:{{ favorito }}</h2>
 

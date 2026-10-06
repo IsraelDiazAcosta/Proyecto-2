@@ -44,7 +44,7 @@ fetch ('https://jsonplaceholder.typicode.com/posts')
   <LoadingSpinner v-if="loading">
 
   </LoadingSpinner>
-  <div class="container" v-elese>
+  <div class="container" v-else>
     <h1>App</h1>
     <h2>Mis post Favorito:{{ favorito }}</h2>
 
